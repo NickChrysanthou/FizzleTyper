@@ -1,4 +1,5 @@
-﻿using FizzleTyper.Core;
+﻿using FizzleGame.ParticleSystem;
+using FizzleTyper.Core;
 using FizzleTyper.Managers;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
@@ -20,9 +21,13 @@ namespace FizzleTyper.Scenes
         private SoundEffect loseLife;
 
         private Texture2D heart;
-        private Rectangle heartRect;
+        private static Rectangle heartRect;
 
         private Random random;
+
+        // Particle Stuff
+        static ParticleEngine engine;
+
         public override void Init(ContentManager Content)
         {
             random = new Random();
@@ -31,7 +36,7 @@ namespace FizzleTyper.Scenes
 
             heart = Content.Load<Texture2D>("textures/heart");
 
-
+            engine = new ParticleEngine(new List<Texture2D> { Content.Load<Texture2D>("Particles/snow") }, true, Color.White, 50f, 0f, 2f);
             wordManager.Init(Content);
             wordManager.PopulateList();
         }
@@ -39,27 +44,75 @@ namespace FizzleTyper.Scenes
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Data.CurrentState = Data.GameStates.Menu;
-            
+
             if (playSoundEffect)
             {
                 loseLife.Play(1, Data.Pitch(random, -0.0f, 1.0f), 0.0f);
                 playSoundEffect = false;
             }
-          
+
             wordManager.Update(gameTime);
+
+            // TODO: get center of current image, not too hard to do
+            var HEART_OFFSET = 40;
+            engine.EmitterLocation = new Vector2(heartRect.X + HEART_OFFSET, heartRect.Y + HEART_OFFSET);
+            engine.Update();
+
+            if (engine.IsVisible)
+            {
+                PlayParticle(engine, gameTime, 0.05);
+            }
+
+            // Todo: add gameover logic
+            if (Data.Lives <= 0)
+                Data.GameOver = true;
+
         }
+
+        // Particle Stuff
+        private float currentTime;
+        private void PlayParticle(ParticleEngine engine, GameTime gameTime, double timeToPlay)
+        {
+            currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (currentTime >= timeToPlay)
+            {
+                engine.IsVisible = false;
+                currentTime = 0;
+            }
+        }
+
+        public static void LoseLife(List<WordGenerator> list)
+        {
+            list[0].visible = false;
+            engine.IsVisible = true;
+            --Data.Lives;
+            WordManager.ActiveList.Clear();
+            playSoundEffect = true;
+
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             wordManager.Draw(spriteBatch);
 
-            spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.White);
+            if (Data.Lives >= 4)
+                spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.Green);
+            else if (Data.Lives >= 3)
+                spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.Yellow);
+            else if (Data.Lives >= 1)
+                spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.Red);
+
             DrawHearts(spriteBatch);
+            engine.Draw(spriteBatch);
+
         }
+        // Heart stuff
+        private const int SCALE = 3, Y_OFFSET = 5;
         private void DrawHearts(SpriteBatch spriteBatch)
         {
             for (int i = 1; i <= Data.Lives; i++)
             {
-                heartRect = new Rectangle(Data.ScreenW - (heart.Width / 3) * i, 5, heart.Width / 3, heart.Height / 3);
+                heartRect = new Rectangle(Data.ScreenW - (heart.Width / SCALE) * i, Y_OFFSET, heart.Width / SCALE, heart.Height / SCALE);
                 spriteBatch.Draw(heart, heartRect, Color.White);
             }
         }
