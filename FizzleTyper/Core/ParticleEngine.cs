@@ -14,6 +14,7 @@ namespace FizzleGame.ParticleSystem
         private List<Particle> particles;
         private List<Texture2D> textures;
         public Color color;
+        public bool IsVisible { get; set; } = false;
         public bool AddColor { get; set; }
         private float particleDensity { get; set; }
         private float particleAngle { get; set; }
@@ -75,9 +76,12 @@ namespace FizzleGame.ParticleSystem
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            for (int i = 0; i < particles.Count; i++)
+            if (IsVisible)
             {
-                particles[i].Draw(spriteBatch);
+                for (int i = 0; i < particles.Count; i++)
+                {
+                    particles[i].Draw(spriteBatch);
+                }
             }
         }
     }
