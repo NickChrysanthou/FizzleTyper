@@ -20,6 +20,18 @@
 /processorParam:TextureFormat=Compressed
 /build:Fonts/WordFont.spritefont
 
+#begin Music/Menu0.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Menu0.mp3
+
+#begin Music/Menu1.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Music/Menu1.mp3
+
 #begin Textures/btn0.png
 /importer:TextureImporter
 /processor:TextureProcessor
