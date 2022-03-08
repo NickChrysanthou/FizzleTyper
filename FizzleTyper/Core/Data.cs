@@ -19,3 +19,9 @@ namespace FizzleTyper.Core
         public static float Pitch(Random random,float min, float max) => (float)(random.NextDouble() * (max - min) + min);
     }
 }
+/*
+TODO:
+    People I need to credit:
+    Credit   DontMind8.blogspot.com | heart sprite
+
+ */
