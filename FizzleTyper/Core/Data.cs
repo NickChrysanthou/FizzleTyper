@@ -17,6 +17,7 @@ namespace FizzleTyper.Core
         public static SpriteFont wordfont { get; set; }
         public static int Lives { get; set; } = 5;
         public static float Pitch(Random random,float min, float max) => (float)(random.NextDouble() * (max - min) + min);
+        public static bool GameOver { get; set; } = false;
     }
 }
 /*
