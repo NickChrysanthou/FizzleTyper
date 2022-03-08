@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using System;
 
 namespace FizzleTyper.Core
 {
@@ -15,6 +16,6 @@ namespace FizzleTyper.Core
         // Game Variables
         public static SpriteFont wordfont { get; set; }
         public static int Lives { get; set; } = 5;
-
+        public static float Pitch(Random random,float min, float max) => (float)(random.NextDouble() * (max - min) + min);
     }
 }
