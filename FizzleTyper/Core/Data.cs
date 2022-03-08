@@ -14,6 +14,7 @@ namespace FizzleTyper.Core
 
         // Game Variables
         public static SpriteFont wordfont { get; set; }
+        public static int Lives { get; set; } = 5;
 
     }
 }
