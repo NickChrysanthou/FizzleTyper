@@ -57,13 +57,10 @@ namespace FizzleTyper.Scenes
             ClickButtons();
         }
 
-        /// <summary>
-        /// Todo: add sound for when mouse hovers over a button
-        /// Problem: the sound will constantly play and there is no usable offstate to execute once
-        /// Possible Solution: keep track of mouse position and after it hovers a button lock the button region until mouse is moved off
-        /// </summary>
+        private bool playSound = false;
         private void UpdateButtons()
         {
+            Trace.WriteLine(ms.Position);
         }
 
         private void ClickButtons()
@@ -76,12 +73,13 @@ namespace FizzleTyper.Scenes
                 soundInstance.Play();
                 Data.CurrentState = Data.GameStates.Game;
             }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[1]))
+            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[1]))
             {
                 soundInstance.Play();
                 Data.CurrentState = Data.GameStates.Settings;
             }
-            else if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
+
+            if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[2]))
             {
                 soundInstance.Play();
                 Data.Exit = true;
