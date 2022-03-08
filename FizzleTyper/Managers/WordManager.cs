@@ -101,10 +101,6 @@ namespace FizzleTyper.Managers
             foreach (var line in contents)
                 WordBank.Add(new WordGenerator(line));
         }
-        private T Read<T>(string filePath)
-        {
-            string text = File.ReadAllText(filePath);
-            return JsonSerializer.Deserialize<T>(text);
-        }
+        private T Read<T>(string filePath) => JsonSerializer.Deserialize<T>(File.ReadAllText(filePath));
     }
 }
