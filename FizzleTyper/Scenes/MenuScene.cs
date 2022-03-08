@@ -66,6 +66,7 @@ namespace FizzleTyper.Scenes
         private void ClickButtons()
         {
             var soundInstance = select.CreateInstance();
+            soundInstance.Volume = 0.75f;
 
             if (ms.LeftButton == ButtonState.Pressed && msRect.Intersects(btnRects[0]))
             {
