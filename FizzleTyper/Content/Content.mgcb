@@ -13,11 +13,17 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin ../../../../../Downloads/Menu0.mp3
+#begin ../../../../../Desktop/Game Sounds/explosion.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../../../../Desktop/Game Sounds/explosion.wav;SoundEffects/explosion.wav
+
+#begin ../../../../../Desktop/Game Sounds/Menu0.mp3
 /importer:Mp3Importer
 /processor:SongProcessor
 /processorParam:Quality=Best
-/build:../../../../../Downloads/Menu0.mp3;Music/Menu0.mp3
+/build:../../../../../Desktop/Game Sounds/Menu0.mp3;Music/Menu0.mp3
 
 #begin Fonts/WordFont.spritefont
 /importer:FontDescriptionImporter
@@ -32,17 +38,23 @@
 /processorParam:Quality=Best
 /build:Music/Menu1.mp3
 
-#begin SoundEffects/explosion.wav
-/importer:WavImporter
-/processor:SoundEffectProcessor
-/processorParam:Quality=Best
-/build:SoundEffects/explosion.wav
-
 #begin SoundEffects/select.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:SoundEffects/select.wav
+
+#begin SoundEffects/typedletter.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/typedletter.wav
+
+#begin SoundEffects/typedword.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:SoundEffects/typedword.wav
 
 #begin Textures/btn0.png
 /importer:TextureImporter
