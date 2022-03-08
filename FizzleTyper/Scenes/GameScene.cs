@@ -26,7 +26,9 @@ namespace FizzleTyper.Scenes
         private Random random;
 
         // Particle Stuff
-        static ParticleEngine engine;
+        private Texture2D snow;
+        private static ParticleEngine heartParticle;
+        private ParticleEngine snowParticle;
 
         public override void Init(ContentManager Content)
         {
@@ -36,7 +38,9 @@ namespace FizzleTyper.Scenes
 
             heart = Content.Load<Texture2D>("textures/heart");
 
-            engine = new ParticleEngine(new List<Texture2D> { Content.Load<Texture2D>("Particles/snow") }, true, Color.White, 50f, 0f, 2f);
+            snow = Content.Load<Texture2D>("Particles/snow");
+            heartParticle = new ParticleEngine(new List<Texture2D> { snow }, true, Color.White, 50f, 0f, 2f);
+            snowParticle = new ParticleEngine(new List<Texture2D> { snow }, false, Color.White, 1f, 0f, 5f);
             wordManager.Init(Content);
             wordManager.PopulateList();
         }
@@ -54,14 +58,16 @@ namespace FizzleTyper.Scenes
             wordManager.Update(gameTime);
 
             // TODO: get center of current image, not too hard to do
-            var HEART_OFFSET = 40;
-            engine.EmitterLocation = new Vector2(heartRect.X + HEART_OFFSET, heartRect.Y + HEART_OFFSET);
-            engine.Update();
+            snowParticle.IsVisible = true;
+            snowParticle.EmitterLocation = new Vector2(random.Next(0,Data.ScreenW), random.Next(0, Data.ScreenH));
+            snowParticle.Update();
 
-            if (engine.IsVisible)
-            {
-                PlayParticle(engine, gameTime, 0.05);
-            }
+            var HEART_OFFSET = 40;
+            heartParticle.EmitterLocation = new Vector2(heartRect.X + HEART_OFFSET, heartRect.Y + HEART_OFFSET);
+            heartParticle.Update();
+
+            if (heartParticle.IsVisible)
+                PlayParticle(heartParticle, gameTime, 0.05);
 
             // Todo: add gameover logic
             if (Data.Lives <= 0)
@@ -84,7 +90,7 @@ namespace FizzleTyper.Scenes
         public static void LoseLife(List<WordGenerator> list)
         {
             list[0].visible = false;
-            engine.IsVisible = true;
+            heartParticle.IsVisible = true;
             --Data.Lives;
             WordManager.ActiveList.Clear();
             playSoundEffect = true;
@@ -101,9 +107,11 @@ namespace FizzleTyper.Scenes
                 spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.Yellow);
             else if (Data.Lives >= 1)
                 spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.Red);
+            
+            snowParticle.Draw(spriteBatch);
 
             DrawHearts(spriteBatch);
-            engine.Draw(spriteBatch);
+            heartParticle.Draw(spriteBatch);
 
         }
         // Heart stuff
