@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using FizzleTyper.Managers;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using System;
@@ -48,7 +49,12 @@ namespace FizzleTyper.Core
             Position.Y += SPEED;
 
             if (Position.Y >= Data.ScreenH)
+            {
                 visible = false;
+                --Data.Lives;
+                // Only if the word isn't typed out and reaches the bottom of the screen clear the screen 
+                WordManager.ActiveList.Clear();
+            }
         }
         public override void Draw(SpriteBatch spriteBatch) => spriteBatch.DrawString(Data.wordfont, Word, Position, Color);
     }

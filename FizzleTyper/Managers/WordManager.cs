@@ -18,7 +18,7 @@ namespace FizzleTyper.Managers
         private TypingManager typeManager;
 
         internal List<WordGenerator> WordBank;
-        internal List<WordGenerator> ActiveList;
+        internal static List<WordGenerator> ActiveList;
         private float currentTime = 0f;
         internal const double SpawnTimeSeconds = 1.00;
 
@@ -61,11 +61,14 @@ namespace FizzleTyper.Managers
             {
                 WordGenerator word = ActiveList[i];
                 word.Update(gameTime);
-                if (!word.visible)
+                
+                // If a word is invisible and there is more then one in the list, remove current word from active list
+                if (!word.visible && ActiveList.Count >= 1)
                     ActiveList.RemoveAt(i);
             }
         }
-
+        // Removes all words from activelist
+        public void ClearScreen() => ActiveList.Clear();
         public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (var word in ActiveList)

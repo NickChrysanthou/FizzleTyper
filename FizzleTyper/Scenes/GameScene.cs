@@ -26,6 +26,8 @@ namespace FizzleTyper.Scenes
         public override void Draw(SpriteBatch spriteBatch)
         {
             wordManager.Draw(spriteBatch);
+
+            spriteBatch.DrawString(Data.wordfont, $"Lives: {Data.Lives}", new Vector2(500, 20), Color.White);
         }
     }
 }
