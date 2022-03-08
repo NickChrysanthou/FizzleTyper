@@ -57,7 +57,7 @@ namespace FizzleTyper.Scenes
             ClickButtons();
         }
 
-        private bool playSound = false;
+        //private bool playSound = false;
         private void UpdateButtons()
         {
             Trace.WriteLine(ms.Position);
