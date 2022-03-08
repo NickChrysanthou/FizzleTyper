@@ -5,6 +5,7 @@ using System.IO;
 using System.Text.Json;
 
 using FizzleTyper.Core;
+using FizzleTyper.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -78,8 +79,18 @@ namespace FizzleTyper.Managers
                 // If a word is invisible and there is more then one in the list, remove current word from active list
                 if (!word.visible && ActiveList.Count >= 1)
                     ActiveList.RemoveAt(i);
+
+
             }
+
+            // Check if first word hits bottom of the screen
+            if (ActiveList.Count >= 1 && ActiveList[0].Position.Y >= Data.ScreenH)
+            {
+                GameScene.LoseLife(ActiveList);
+            }
+
         }
+  
         public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (var word in ActiveList)
