@@ -40,7 +40,6 @@ namespace FizzleTyper.Core
         {
             const int START_POINT = 15, END_POINT = 256, MAX_APLHA = 256;
             int R = random.Next(START_POINT, END_POINT), G = random.Next(START_POINT, END_POINT), B = random.Next(START_POINT, END_POINT);
-            
             return new Color(R, G, B, MAX_APLHA);
         }
 

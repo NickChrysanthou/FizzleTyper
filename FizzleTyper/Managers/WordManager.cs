@@ -8,25 +8,26 @@ using FizzleTyper.Core;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using Newtonsoft.Json.Linq;
 
 namespace FizzleTyper.Managers
 {
     public class WordManager : Component
     {
-        internal List<WordGenerator> WordBank;
-        internal List<WordGenerator> ActiveList = new List<WordGenerator>();
-
-        internal const double SpawnTimeSeconds = 1.00;
-        private float currentTime = 0f;
-
-        private Random rand = new Random();
+        private Random rand;
         private int next = 0;
+        private TypingManager typeManager;
 
-        private TypingManager typeManager = new TypingManager();
+        internal List<WordGenerator> WordBank;
+        internal List<WordGenerator> ActiveList;
+        private float currentTime = 0f;
+        internal const double SpawnTimeSeconds = 1.00;
 
-        public override void Init(ContentManager Content) { }
+        public override void Init(ContentManager Content) 
+        {
+            typeManager = new TypingManager();
+            ActiveList = new List<WordGenerator>();
+            rand = new Random();
+        }
         public override void Update(GameTime gameTime)
         {
             typeManager.Update();
@@ -48,8 +49,6 @@ namespace FizzleTyper.Managers
                 char currentLetter = ActiveList[0].Word[0];
 
                 //foreach (var letter in ActiveList[0].Word)
-
-                Trace.WriteLine(currentLetter);
 
                 if (pressed == currentLetter)
                     ActiveList[0].Word = ActiveList[0].Word.Remove(0, 1);
@@ -73,17 +72,17 @@ namespace FizzleTyper.Managers
                 if (word.visible)
                     word.Draw(spriteBatch);
         }
-        private const string PATH = "wordbank.json";
         public void PopulateList()
         {
+            const string path = "wordbank.json";
             WordBank = new List<WordGenerator>();
 
-            if (!File.Exists(PATH))
+            if (!File.Exists(path))
             {
-                var create = File.Create(PATH);
+                var create = File.Create(path);
                 create.Close();
             }
-            var contents = Read<List<string>>(PATH);
+            var contents = Read<List<string>>(path);
 
             foreach (var line in contents)
                 WordBank.Add(new WordGenerator(line));
