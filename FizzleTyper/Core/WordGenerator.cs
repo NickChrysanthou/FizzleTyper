@@ -1,4 +1,5 @@
-﻿using FizzleTyper.Managers;
+﻿using FizzleGame.ParticleSystem;
+using FizzleTyper.Managers;
 using FizzleTyper.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -21,16 +22,18 @@ namespace FizzleTyper.Core
 
         internal bool visible = false;
         private const int SPEED = 5;
+
         public WordGenerator(string word)
         {
             Word = word;
-            
+
             random = new Random();
             Position = RandomPosition();
             Color = PickRandomColor();
         }
 
-        public override void Init(ContentManager Content){ }
+        public override void Init(ContentManager Content) { }
+        
         public Vector2 RandomPosition() => new Vector2(random.Next(250, Data.ScreenW - 250), 0);
         private Color PickRandomColor()
         {
@@ -39,21 +42,9 @@ namespace FizzleTyper.Core
             return new Color(R, G, B, MAX_APLHA);
         }
 
-        public override void Update(GameTime gameTime)
-        {
-            Position.Y += SPEED;
+        public override void Update(GameTime gameTime) => Position.Y += SPEED;
 
-            if (Position.Y >= Data.ScreenH)
-                LoseLife();
-        }
-
-        private void LoseLife()
-        {
-            visible = false;
-            --Data.Lives;
-            WordManager.ActiveList.Clear();
-            GameScene.playSoundEffect = true;
-        }
+       
 
         public override void Draw(SpriteBatch spriteBatch) => spriteBatch.DrawString(Data.wordfont, Word, Position, Color);
     }
