@@ -61,14 +61,12 @@ namespace FizzleTyper.Managers
             {
                 WordGenerator word = ActiveList[i];
                 word.Update(gameTime);
-                
+
                 // If a word is invisible and there is more then one in the list, remove current word from active list
                 if (!word.visible && ActiveList.Count >= 1)
                     ActiveList.RemoveAt(i);
             }
         }
-        // Removes all words from activelist
-        public void ClearScreen() => ActiveList.Clear();
         public override void Draw(SpriteBatch spriteBatch)
         {
             foreach (var word in ActiveList)

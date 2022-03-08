@@ -9,7 +9,7 @@ namespace FizzleTyper.Core
         public static int ScreenH { get; set; } = 900;
         public static bool Exit { get; set; } = default(bool);
 
-        public enum GameStates { Menu, Game }
+        public enum GameStates { Menu, Settings, Game, }
         public static GameStates CurrentState { get; set; } = GameStates.Menu;
 
         // Game Variables

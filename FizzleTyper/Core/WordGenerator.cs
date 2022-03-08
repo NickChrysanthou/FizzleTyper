@@ -1,4 +1,5 @@
 ﻿using FizzleTyper.Managers;
+using FizzleTyper.Scenes;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,7 +21,6 @@ namespace FizzleTyper.Core
 
         internal bool visible = false;
         private const int SPEED = 5;
-
         public WordGenerator(string word)
         {
             Word = word;
@@ -31,12 +31,7 @@ namespace FizzleTyper.Core
         }
 
         public override void Init(ContentManager Content){ }
-        public Vector2 RandomPosition()
-        {
-            const int X_OFFSET_WIDTH = 100, Y_OFFSET = 0;
-            int randX = random.Next(X_OFFSET_WIDTH, Data.ScreenW - X_OFFSET_WIDTH);
-            return new Vector2(randX, Y_OFFSET);
-        }
+        public Vector2 RandomPosition() => new Vector2(random.Next(250, Data.ScreenW - 250), 0);
         private Color PickRandomColor()
         {
             const int START_POINT = 15, END_POINT = 256, MAX_APLHA = 256;
@@ -49,13 +44,17 @@ namespace FizzleTyper.Core
             Position.Y += SPEED;
 
             if (Position.Y >= Data.ScreenH)
-            {
-                visible = false;
-                --Data.Lives;
-                // Only if the word isn't typed out and reaches the bottom of the screen clear the screen 
-                WordManager.ActiveList.Clear();
-            }
+                LoseLife();
         }
+
+        private void LoseLife()
+        {
+            visible = false;
+            --Data.Lives;
+            WordManager.ActiveList.Clear();
+            GameScene.playSoundEffect = true;
+        }
+
         public override void Draw(SpriteBatch spriteBatch) => spriteBatch.DrawString(Data.wordfont, Word, Position, Color);
     }
 }
