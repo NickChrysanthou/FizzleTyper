@@ -18,10 +18,10 @@ namespace FizzleTyper.Scenes
         public static bool playSoundEffect { get; internal set; } = false;
         private SoundEffect loseLife;
 
-        private Random rand;
+        private Random random;
         public override void Init(ContentManager Content)
         {
-            rand = new Random();
+            random = new Random();
             loseLife = Content.Load<SoundEffect>("SoundEffects/explosion");
             Data.wordfont = Content.Load<SpriteFont>("Fonts/WordFont");
 
@@ -32,8 +32,7 @@ namespace FizzleTyper.Scenes
         {
             if (playSoundEffect)
             {
-                float val = (float)(rand.NextDouble() * (1.0f - -1.0f) + -1.0f);
-                loseLife.Play(1, val, 0.0f);
+                loseLife.Play(1, Data.Pitch(random,-0.0f,1.0f), 0.0f);
                 playSoundEffect = false;
             }
 
